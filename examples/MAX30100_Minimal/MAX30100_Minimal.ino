@@ -64,7 +64,9 @@ void setup()
 void loop()
 {
     // Make sure to call update as fast as possible
-    pox.update();
+    static float values;
+    // RAW RED DATA
+    pox.update(&values);
 
     // Asynchronously dump heart rate and oxidation levels to the serial
     // For both, a value of 0 means "invalid"

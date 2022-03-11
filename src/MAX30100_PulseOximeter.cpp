@@ -57,11 +57,11 @@ bool PulseOximeter::begin(PulseOximeterDebuggingMode debuggingMode_)
     return true;
 }
 
-void PulseOximeter::update()
+void PulseOximeter::update(float* value)
 {
     hrm.update();
 
-    checkSample();
+    checkSample(value);
     checkCurrentBias();
 }
 
@@ -101,7 +101,7 @@ void PulseOximeter::resume()
     hrm.resume();
 }
 
-void PulseOximeter::checkSample()
+void PulseOximeter::checkSample(float* value)
 {
     uint16_t rawIRValue, rawRedValue;
 
@@ -109,6 +109,7 @@ void PulseOximeter::checkSample()
     while (hrm.getRawValues(&rawIRValue, &rawRedValue)) {
         float irACValue = irDCRemover.step(rawIRValue);
         float redACValue = redDCRemover.step(rawRedValue);
+        *value = redACValue;
 
         // The signal fed to the beat detector is mirrored since the cleanest monotonic spike is below zero
         float filteredPulseValue = lpf.step(-irACValue);

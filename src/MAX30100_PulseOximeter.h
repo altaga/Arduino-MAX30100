@@ -51,7 +51,7 @@ public:
     PulseOximeter();
 
     bool begin(PulseOximeterDebuggingMode debuggingMode_=PULSEOXIMETER_DEBUGGINGMODE_NONE);
-    void update();
+    void update(float* value);
     float getHeartRate();
     uint8_t getSpO2();
     uint8_t getRedLedCurrentBias();
@@ -61,7 +61,7 @@ public:
     void resume();
 
 private:
-    void checkSample();
+    void checkSample(float* value);
     void checkCurrentBias();
 
     PulseOximeterState state;
